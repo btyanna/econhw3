@@ -1,0 +1,22 @@
+---
+title: "Econ HW 3"
+author: "Tyanna Bui"
+date: "5/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+data = read.csv("HW3Data.csv")
+```
+
+1. Linear Probability Model
+```{r}
+lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
+
+```
+
