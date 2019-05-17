@@ -9,22 +9,47 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, load packages}
 
-```{r}
+library(tidyverse)
+
+```
+
+```{r, read in data}
+
 data = read.csv("HW3Data.csv")
+
+# Risk = level of risk reduction
+# Bid = annual payment for the household
+# Vote 1 = yes, 0 = no
+# NEP = measure of envrionmental concenr
+# Income = categorical variable for income level
+# Age = categorical variable for age
+
 ```
 
 1. Linear Probability Model
-```{r}
 
-lm = lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
+```{r, create a linear model}
+
+lm <- lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
 
 summary(lm)
+
+# Equation: vote = 0.1196977 + 0.0099816(agetofifty) - 0.0201190(agetoforty) - 0.0162261(agetosixty) +  0.0204401(agetothirty) + 0.0088282(incomepercent) +  0.0027386(incomepoor) + 0.0074891(incomerich) +  0.0467922(incomeveryrich) + 0.0158639(NEP) +  0.0007445(Risk) - 0.0010699(bid)
+
+# Reference Levels
+# Age = oversixty
+# Income = middle
 
 ```
 
 2. Value of a single prevented whale death
-```{r}
+
+```{r, assign coefficients}
+
+mycoef<-coef(lm)
+
 ageto50 = 0.0099816
 ageto40 = -0.0201190
 ageto60 = -0.0162261
@@ -37,9 +62,49 @@ NEP = 0.0158639
 risk = 0.0007445
 bid = -0.0010699
 
-bid_4 = (risk/-bid)*(0.04)
-(bid_4)
+```
+```{r, rewrite equation to solve for bid}
 
+# Equation
+
+# vote = 0.1196977 + 0.0099816(agetofifty) - 0.0201190(agetoforty) - 0.0162261(agetosixty) +  0.0204401(agetothirty) + 0.0088282(incomepercent) +  0.0027386(incomepoor) + 0.0074891(incomerich) +  0.0467922(incomeveryrich) + 0.0158639(NEP) +  0.0007445(Risk) - 0.001069(bid)
+
+# Rewrite
+
+# 0.0010699(bid) = 0.1196977 + 0.0099816(agetofifty) - 0.0201190(agetoforty) - 0.0162261(agetosixty) +  0.0204401(agetothirty) + 0.0088282(incomepercent) +  0.0027386(incomepoor) + 0.0074891(incomerich) +  0.0467922(incomeveryrich) + 0.0158639(NEP) +  0.0007445(Risk) - vote
+
+mycoef_rewrite <- coef(lm)/0.0010699
+mycoef_rewrite
+
+# bid = 111.8774314 + 9.3294422(agetofifty) - 18.8045524(agetoforty) - 15.1659621(agetosixty) + 19.1046842(agetothirty) + 8.2514018(incomepercent) + 2.5597137(incomepoor) + 6.9998432(incomerich) + 43.7350996(incomeveryrich) + 14.8274551(NEP) + 0.6958470(risk) - 934.6668(vote)
+
+```
+
+```{r, calcuate value of single prevented whale death}
+
+# Person 1 at risk = 0%
+
+bid_0 <- 111.8774314 + 9.3294422*(0) - 18.8045524*(0) - 15.1659621*(0) + 19.1046842*(1) + 8.2514018*(0) + 2.5597137*(0) + 6.9998432*(0) + 43.7350996*(1) + 14.8274551*(15) + 0.6958470*(0) - 934.6668*(0)
+bid_0
+
+# bid_0 = 397.129
+
+
+
+# Person 1 at risk = 4%
+
+bid_4 <- 111.8774314 + 9.3294422*(0) - 18.8045524*(0) - 15.1659621*(0) + 19.1046842*(1) + 8.2514018*(0) + 2.5597137*(0) + 6.9998432*(0) + 43.7350996*(1) + 14.8274551*(15) + 0.6958470*(4) - 934.6668*(0)
+bid_4
+
+# bid_4 = 399.9127
+
+
+
+# Difference between bids (value of a single prevented whale death)
+
+bid_24-bid_20
+
+# value of single whale = 2.783388
 
 ```
 
