@@ -16,13 +16,14 @@ data = read.csv("HW3Data.csv")
 
 1. Linear Probability Model
 ```{r}
+
 lm = lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
 
 summary(lm)
 
 ```
 
-2. Regression stuff
+2. Value of a single prevented whale death
 ```{r}
 ageto50 = 0.0099816
 ageto40 = -0.0201190
