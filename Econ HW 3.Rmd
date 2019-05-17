@@ -22,7 +22,7 @@ data = read.csv("HW3Data.csv")
 # Risk = level of risk reduction
 # Bid = annual payment for the household
 # Vote 1 = yes, 0 = no
-# NEP = measure of envrionmental concenr
+# NEP = measure of envrionmental concern
 # Income = categorical variable for income level
 # Age = categorical variable for age
 
@@ -107,9 +107,9 @@ bid_4
 
 # Difference between bids (value of a single prevented whale death)
 
-bid_24-bid_20
+bid_4-bid_0
 
-# value of single whale = 2.783388
+# value of single whale = 2.783388 ##this is in dollars, ri ght? TB
 
 ```
 
