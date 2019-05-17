@@ -16,7 +16,29 @@ data = read.csv("HW3Data.csv")
 
 1. Linear Probability Model
 ```{r}
-lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
+lm = lm(formula = vote ~ age + income + NEP + risk + bid, data = data)
+
+summary(lm)
+
+```
+
+2. Regression stuff
+```{r}
+ageto50 = 0.0099816
+ageto40 = -0.0201190
+ageto60 = -0.0162261
+ageto30 = 0.0204401
+incomeone_percent = 0.0088282
+incomepoor = 0.0027386
+incomerich = 0.0074891
+incomevery_rich = 0.0467922
+NEP = 0.0158639
+risk = 0.0007445
+bid = -0.0010699
+
+bid_4 = (risk/-bid)*(0.04)
+(bid_4)
+
 
 ```
 
