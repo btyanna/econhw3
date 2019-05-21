@@ -109,7 +109,7 @@ bid_4
 
 bid_4-bid_0
 
-# value of single whale = 2.783388 ##this is in dollars, ri ght? TB
+# value of single whale = 2.783388 dollars ##this is in dollars, right? TB Yes, dollars -CH
 
 ```
 
@@ -125,7 +125,7 @@ bid_4-bid_0
 bid38_60 <- 111.8774314 + 9.3294422*(0) - 18.8045524*(1) - 15.1659621*(0) + 19.1046842*(0) + 8.2514018*(0) + 2.5597137*(0) + 6.9998432*(0) + 43.7350996*(1) + 14.8274551*(43) + 0.6958470*(60) - 934.6668*(1)
 bid38_60
 
-# bid38_60 = -118.5274
+# bid38_60 = -118.5274 dollars
 
 
 
@@ -134,7 +134,7 @@ bid38_60
 bid70_60 <- 111.8774314 + 9.3294422*(0) - 18.8045524*(0) - 15.1659621*(1) + 19.1046842*(0) + 8.2514018*(1) + 2.5597137*(0) + 6.9998432*(0) + 43.7350996*(0) + 14.8274551*(38) + 0.6958470*(60) - 934.6668*(0)
 bid70_60
 
-# bid70_60 = 710.157
+# bid70_60 = 710.157 dollars
 
 
 
@@ -143,7 +143,77 @@ bid70_60
 bid310_60 <- 111.8774314 + 9.3294422*(1) - 18.8045524*(0) - 15.1659621*(0) + 19.1046842*(0) + 8.2514018*(0) + 2.5597137*(1) + 6.9998432*(0) + 43.7350996*(0) + 14.8274551*(31) + 0.6958470*(60) - 934.6668*(1)
 bid310_60
 
-# bid310_60 = -309.4983
+# bid310_60 = -309.4983 dollars
+
+```
+
+4. Calculate mean WTP for a VSR program offering 60% risk reduction among Santa Barbara households
+
+```{r, calculating predicted probabilities}
+
+predicted_probs <- predict(lm, newdata = data, type = "response", se.fit = TRUE)
+
+# Put outcome into data frame. 
+
+predict_data <- data.frame(data, predicted_probs$fit, predicted_probs$se.fit)
+
+colnames(predict_data) <- c("risk", "bid", "vote", "NEP", "income", "age", "probability", "SE")
+
+# Add up the probability column 
+
+sum(predict_data$probability) # 357 people out of 500 surveyed will vote yes
+
+```
+
+```{r, scaling survey results out to santa barbara households}
+
+# Continuous data (mean)
+
+mean(predict_data$risk) # 49
+mean(predict_data$bid) # 59.0
+mean(predict_data$vote) # 0.714
+mean(predict_data$NEP) # 38.366
+
+
+# Character data (mode)
+
+# Create the function.
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Vector for income character data
+
+income_vector<- (predict_data$income)
+
+# Find mode of income
+
+getmode(income_vector) # one_precent
+
+# vector for age data and mode
+
+age_vector <- (predict_data$age)
+getmode(age_vector) # to thirty
+
+```
+
+```{r, finding average WTP at 60% risk reduction}
+
+# bid = 111.8774314 + 9.3294422(agetofifty) - 18.8045524(agetoforty) - 15.1659621(agetosixty) + 19.1046842(agetothirty) + 8.2514018(incomepercent) + 2.5597137(incomepoor) + 6.9998432(incomerich) + 43.7350996(incomeveryrich) + 14.8274551(NEP) + 0.6958470(risk) - 934.6668(vote)
+
+bid_avg_60 <- 111.8774314 + 9.3294422*(0) - 18.8045524*(0) - 15.1659621*(0) + 19.1046842*(1) + 8.2514018*(1) + 2.5597137*(0) + 6.9998432*(0) + 43.7350996*(0) + 14.8274551*(38.366) + 0.6958470*(49) - 934.6668*(0.714)
+bid_avg_60
+
+# Average WTP for a VSP program offering 60% reduction in santa barbara is 74.84807 dollars
+
+```
+
+5. Total benefit of a VSR program
+
+```{r}
+
+
 
 ```
 
